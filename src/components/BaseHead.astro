@@ -1,0 +1,96 @@
+---
+// Import the global.css file here so that it is included on
+// all pages through the use of the <BaseHead /> component.
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+var url = canonicalURL.toString();
+
+// Expresión regular para buscar el patrón de fecha en la URL
+var pattern = /\/(\d{2}-\d{2}-\d{2})\//;
+
+// Buscar la fecha en la URL
+var match = url.match(pattern);
+
+const {
+  title,
+  description,
+  image = match
+    ? `https://proyectocolonia.website/images/${match[1]}/Imagen1.jpeg`
+    : "https://proyectocolonia.website/favicon.png",
+} = Astro.props;
+
+console.log(image); // Imprime la URL de la imagen con la fecha si se encuentra, o una URL de imagen predeterminada si no se encuentra.
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.png" />
+<meta name="generator" content={Astro.generator} />
+<meta name="language" content="es" />
+<meta
+  name="keywords"
+  content="Colonia, Carmelo, Proyecto Colonia, Noticias, Politica, Partido Nacional"
+/>
+
+<!-- Font preloads -->
+<link
+  rel="preload"
+  href="/fonts/atkinson-regular.woff"
+  as="font"
+  type="font/woff"
+  crossorigin
+/>
+<link
+  rel="preload"
+  href="/fonts/atkinson-bold.woff"
+  as="font"
+  type="font/woff"
+  crossorigin
+/>
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@ProyectoColonia" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:image:alt" content={description} />
+
+<!-- Google tag (gtag.js) -->
+<script
+  type="text/partytown"
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-VMK077K6PD"></script>
+<script type="text/partytown">
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-VMK077K6PD");
+</script>
